@@ -1,4 +1,4 @@
-//CODIGO DA PASTA MODELS AQUIVO USER.js
+const User = require('../models/users');
  
 // Importa o tipo de dados do Sequelize
 const { DataTypes } = require('sequelize');
