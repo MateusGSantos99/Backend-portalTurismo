@@ -1,5 +1,4 @@
-const User = require('../models/users');
- 
+
 // Importa o tipo de dados do Sequelize
 const { DataTypes } = require('sequelize');
  
