@@ -1,28 +1,24 @@
-const bcrypt = require('bcryptjs');
-const User = require('../models/users');
- 
- 
- 
-exports.login =  async(req, res) => {
+async function login(email, password) {
     try {
-        const {email, password} = req.body;
- 
-        if (!email || !password) return res.status(400).json({message:'email e senha são obrigatorios'})
- 
-        const user = await User.findOne ({where: {email}})
- 
-        if(!user) return res.status(404).json({message:'usuario nao encontrado'})
-        const passworldValid = await bcrypt.compare(password, user.password)
-        if(!passworldValid) return res.status(400).json({message:'email ou senha incorretos'})
-        res.json({message: 'login realizado com sucesso',
-            user: {id: user.id, name : user.name, email: user.email}
-        })
+      const response = await fetch('https://backend-portalturismo-5ao1.onrender.com/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include' // se seu backend usa cookies/sessão
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert('Erro: ' + errorData.message);
+        return;
+      }
+  
+      const data = await response.json();
+      alert(data.message); // login realizado com sucesso
+      // faça algo, ex: salvar token, redirecionar...
     } catch (error) {
-        res.status(500).json({ message: 'Erro interno do servidor.' });
- 
+      console.error('Erro no login:', error);
+      alert('Erro no login, tente novamente.');
     }
- 
-    }
- 
-
- 
+  }
+  
